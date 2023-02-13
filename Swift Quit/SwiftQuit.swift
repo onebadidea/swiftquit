@@ -115,6 +115,11 @@ class SwiftQuit {
     
     @objc class func activateAutomaticAppClosing(){
         swindler.on { (event: WindowDestroyedEvent) in
+            if !event.window.application.knownWindows.isEmpty {
+                print("Application still has windows; aborting")
+                return
+            }
+
             let processIdentifier = event.window.application.processIdentifier
             closeApplication(pid:processIdentifier, eventApp:event.window.application)
         }
