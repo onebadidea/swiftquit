@@ -121,7 +121,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
                 dialog.title                   = "Choose Application";
                 dialog.showsResizeIndicator    = true;
                 dialog.showsHiddenFiles        = false;
-                dialog.canChooseFiles = false;
+                dialog.canChooseFiles = true;
                 dialog.canChooseDirectories = true;
                 dialog.treatsFilePackagesAsDirectories = true
                 dialog.directoryURL = directory
