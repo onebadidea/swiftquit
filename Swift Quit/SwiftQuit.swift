@@ -98,7 +98,7 @@ class SwiftQuit {
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
             
 
-            if(!swiftQuitExcludedApps.contains(applicationName)){
+                if (shouldCloseApplication(applicationName: applicationName)) {
                 
                 var closeApp = true as Bool
                 
@@ -148,7 +148,7 @@ class SwiftQuit {
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
 
             if(myAppPid != pid){
-                if(!swiftQuitExcludedApps.contains(applicationName)){
+                if (shouldCloseApplication(applicationName: applicationName)) {
 
                     if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
                         terminateApplication(app: app)
@@ -169,7 +169,12 @@ class SwiftQuit {
         
     }
     
+    class func shouldCloseApplication(applicationName:String) -> Bool {
+        return (swiftQuitSettings["excludeBehaviour"] == "excludeApps" && !swiftQuitExcludedApps.contains(applicationName)) || (swiftQuitSettings["excludeBehaviour"] == "includeApps" && swiftQuitExcludedApps.contains(applicationName))
+    }
+    
     class func terminateApplication(app:NSRunningApplication) {
-        //app.terminate()
+        print("Terminated " + (app.localizedName ?? "<no_name>"))
+        app.terminate()
     }
 }
