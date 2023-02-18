@@ -1,4 +1,4 @@
-# swiftquit
+# Swift Quit
 Swift Quit enables automatic quitting of macOS apps when closing their windows (clicking the red x). It can be configured to quit when the last window of any app closed, or restricted to a specific list of apps. Additionally, you can exclude apps you dont want to quit automatically.
 
 # Use At Your Own Risk
