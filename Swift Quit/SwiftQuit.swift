@@ -104,7 +104,7 @@ class SwiftQuit {
                 }
                 
                 if (closeApp == true){
-                    app.terminate()
+                    terminateApplication(app: app)
                 }
         
                 
@@ -146,12 +146,12 @@ class SwiftQuit {
             if(!swiftQuitExcludedApps.contains(applicationName)){
 
                 if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
-                    app.terminate()
+                    terminateApplication(app: app)
                 }
                 else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                         if eventApp.knownWindows.isEmpty {
-                            app.terminate()
+                            terminateApplication(app: app)
                         }
                     }
                 }
@@ -172,7 +172,8 @@ class SwiftQuit {
         
         
     }
-
     
-    
+    class func terminateApplication(app:NSRunningApplication) {
+        app.terminate()
+    }
 }
