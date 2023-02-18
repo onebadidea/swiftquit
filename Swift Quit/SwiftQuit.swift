@@ -34,6 +34,16 @@ class SwiftQuit {
         userDefaults.set(swiftQuitExcludedApps, forKey: "SwiftQuitExcludedApps")
     }
     
+    @objc class func enableExcludedApps(){
+        swiftQuitSettings["excludeBehaviour"] = "excludeApps"
+        updateSettings()
+    }
+    
+    @objc class func enableIncludedApps(){
+        swiftQuitSettings["excludeBehaviour"] = "includeApps"
+        updateSettings()
+    }
+    
     @objc class func enableAutomaticQuit(){
         swiftQuitSettings["automaticQuitEnabled"] = "true"
         updateSettings()
@@ -88,7 +98,7 @@ class SwiftQuit {
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
             
 
-            if(!swiftQuitExcludedApps.contains(applicationName)){
+                if (shouldCloseApplication(applicationName: applicationName)) {
                 
                 var closeApp = true as Bool
                 
@@ -104,7 +114,7 @@ class SwiftQuit {
                 }
                 
                 if (closeApp == true){
-                    app.terminate()
+                    terminateApplication(app: app)
                 }
         
                 
@@ -125,7 +135,7 @@ class SwiftQuit {
         }
     }
     
-    class func closeApplication(pid:Int32, eventApp:Swindler.Application){
+    class func closeApplication(pid:Int32, eventApp:Swindler.Application) {
         let myAppPid = ProcessInfo.processInfo.processIdentifier
 
         let app = AppKit.NSRunningApplication.init(processIdentifier: pid)!
@@ -133,46 +143,38 @@ class SwiftQuit {
         
             if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
             
-            
-            
             applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
             applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
 
-
-            
             if(myAppPid != pid){
-            
-            if(!swiftQuitExcludedApps.contains(applicationName)){
+                if (shouldCloseApplication(applicationName: applicationName)) {
 
-                if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
-                    app.terminate()
-                }
-                else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                        if eventApp.knownWindows.isEmpty {
-                            app.terminate()
+                    if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
+                        terminateApplication(app: app)
+                    }
+                    else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                            if eventApp.knownWindows.isEmpty {
+                                terminateApplication(app: app)
+                            }
                         }
                     }
+                    
                 }
-                
             }
         
-
-            
-            
-            
-            
-            
-            
-            
-            
-        }
         }
         
         
     }
-
     
+    class func shouldCloseApplication(applicationName:String) -> Bool {
+        return (swiftQuitSettings["excludeBehaviour"] == "excludeApps" && !swiftQuitExcludedApps.contains(applicationName)) || (swiftQuitSettings["excludeBehaviour"] == "includeApps" && swiftQuitExcludedApps.contains(applicationName))
+    }
     
+    class func terminateApplication(app:NSRunningApplication) {
+        print("Terminated " + (app.localizedName ?? "<no_name>"))
+        app.terminate()
+    }
 }
