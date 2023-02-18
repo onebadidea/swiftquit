@@ -34,6 +34,16 @@ class SwiftQuit {
         userDefaults.set(swiftQuitExcludedApps, forKey: "SwiftQuitExcludedApps")
     }
     
+    @objc class func enableExcludedApps(){
+        swiftQuitSettings["excludeBehaviour"] = "excludeApps"
+        updateSettings()
+    }
+    
+    @objc class func enableIncludedApps(){
+        swiftQuitSettings["excludeBehaviour"] = "includeApps"
+        updateSettings()
+    }
+    
     @objc class func enableAutomaticQuit(){
         swiftQuitSettings["automaticQuitEnabled"] = "true"
         updateSettings()
@@ -125,7 +135,7 @@ class SwiftQuit {
         }
     }
     
-    class func closeApplication(pid:Int32, eventApp:Swindler.Application){
+    class func closeApplication(pid:Int32, eventApp:Swindler.Application) {
         let myAppPid = ProcessInfo.processInfo.processIdentifier
 
         let app = AppKit.NSRunningApplication.init(processIdentifier: pid)!
@@ -133,47 +143,33 @@ class SwiftQuit {
         
             if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
             
-            
-            
             applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
             applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
 
-
-            
             if(myAppPid != pid){
-            
-            if(!swiftQuitExcludedApps.contains(applicationName)){
+                if(!swiftQuitExcludedApps.contains(applicationName)){
 
-                if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
-                    terminateApplication(app: app)
-                }
-                else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                        if eventApp.knownWindows.isEmpty {
-                            terminateApplication(app: app)
+                    if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
+                        terminateApplication(app: app)
+                    }
+                    else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                            if eventApp.knownWindows.isEmpty {
+                                terminateApplication(app: app)
+                            }
                         }
                     }
+                    
                 }
-                
             }
         
-
-            
-            
-            
-            
-            
-            
-            
-            
-        }
         }
         
         
     }
     
     class func terminateApplication(app:NSRunningApplication) {
-        app.terminate()
+        //app.terminate()
     }
 }

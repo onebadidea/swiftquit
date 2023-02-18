@@ -14,6 +14,10 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     @IBOutlet weak var quitAppsAutomaticallySwitchOutlet: NSSwitch!
     @IBOutlet weak var quitAppsWhenPopupOutlet: NSPopUpButton!
     @IBOutlet weak var quitAppsWhenLabelOutlet: NSTextField!
+    
+    @IBOutlet weak var excludeBehaviourPopupOutlet: NSPopUpButton!
+    @IBOutlet weak var excludeBehaviourLabelOutlet: NSTextField!
+    
     @IBOutlet weak var excludedAppsTableView: NSTableView!
     @IBOutlet weak var removeExcludedAppButtonOutlet: NSButton!
 
@@ -52,6 +56,14 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
             quitAppsWhenPopupOutlet.title = "Any Window Is Closed"
         }
         
+        excludeBehaviourLabelOutlet.textColor = .labelColor
+        
+        if(swiftQuitSettings["excludeBehaviour"] == "excludeApps"){
+            excludeBehaviourPopupOutlet.title = "All Apps Except The Following"
+        }
+        else{
+            excludeBehaviourPopupOutlet.title = "The Following Apps"
+        }
         
         excludedAppsTableView.dataSource = self
         excludedAppsTableView.delegate = self
@@ -107,6 +119,17 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         else{
             swiftQuitSettings["quitWhen"] = "anyWindowClosed"
             SwiftQuit.enableQuitOnAnyWindow()
+        }
+    }
+    
+    @IBAction func changeExcludeBehaviour(_ sender: Any) {
+        
+        if(excludeBehaviourPopupOutlet.title == "All Apps Except The Following"){
+            SwiftQuit.enableExcludedApps()
+        }
+        else{
+            swiftQuitSettings["excludeBehaviour"] = "includeApps"
+            SwiftQuit.enableIncludedApps()
         }
     }
     
