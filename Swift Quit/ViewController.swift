@@ -10,7 +10,7 @@ import LaunchAtLogin
 
 class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     @objc dynamic var launchAtLogin = LaunchAtLogin.kvo
-
+    
     @IBOutlet weak var quitAppsAutomaticallySwitchOutlet: NSSwitch!
     @IBOutlet weak var quitAppsWhenPopupOutlet: NSPopUpButton!
     @IBOutlet weak var quitAppsWhenLabelOutlet: NSTextField!
@@ -20,28 +20,24 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     
     @IBOutlet weak var excludedAppsTableView: NSTableView!
     @IBOutlet weak var removeExcludedAppButtonOutlet: NSButton!
-
-    @IBOutlet weak var launchAtLoginSwitch: NSSwitch!
     
-
+    @IBOutlet weak var launchAtLoginSwitch: NSSwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NSApp.activate(ignoringOtherApps: true)
         view.window?.delegate = self
-
-
+        
+        
         setupViews()
     }
-
+    
     override var representedObject: Any? {
         didSet {
-                    // Update the view, if already loaded.
+            // Update the view, if already loaded.
             
         }
     }
-    
-
     
     func setupViews() {
         if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
@@ -70,8 +66,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         
     }
     
-    
-    
     @IBAction func launchAtLoginToggle(_ sender: Any) {
         
         if launchAtLoginSwitch.state == NSControl.StateValue.on {
@@ -81,13 +75,10 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
             SwiftQuit.disableLaunchAtLogin()
         }
         
-        
     }
     
-    
-    
     @IBAction func automaticallyQuitApps(_ sender: Any) {
-    
+        
         if quitAppsAutomaticallySwitchOutlet.state == NSControl.StateValue.on {
             showQuitAppsWhen()
             SwiftQuit.enableAutomaticQuit()
@@ -109,7 +100,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         quitAppsWhenPopupOutlet.isEnabled = false
         quitAppsWhenLabelOutlet.textColor = .systemGray
     }
-    
     
     @IBAction func changeQuitOn(_ sender: Any) {
         
@@ -133,50 +123,45 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         }
     }
     
-    
-    
     @IBAction func addExcludedApp(_ sender: Any) {
         let dialog = NSOpenPanel();
-
+        let directory = URL(string: "file:///System/Applications/")
         
-            let directory = URL(string: "file:///System/Applications/")
-
-                dialog.title                   = "Choose Application";
-                dialog.showsResizeIndicator    = true;
-                dialog.showsHiddenFiles        = false;
-                dialog.canChooseFiles = true;
-                dialog.canChooseDirectories = true;
-                dialog.treatsFilePackagesAsDirectories = true
-                dialog.directoryURL = directory
-
-                if (dialog.runModal() ==  NSApplication.ModalResponse.OK) {
-                    let result = dialog.url
-
-                    if (result != nil) {
-                        
-                        swiftQuitExcludedApps.append(result!.path)
-                        
-                        let count = swiftQuitExcludedApps.count - 1
-                        let indexSet = IndexSet(integer:count)
-
-                        excludedAppsTableView.beginUpdates()
-                        excludedAppsTableView.insertRows(at:indexSet, withAnimation:.effectFade)
-                        excludedAppsTableView.endUpdates()
+        dialog.title                   = "Choose Application";
+        dialog.showsResizeIndicator    = true;
+        dialog.showsHiddenFiles        = false;
+        dialog.canChooseFiles = true;
+        dialog.canChooseDirectories = true;
+        dialog.treatsFilePackagesAsDirectories = true
+        dialog.directoryURL = directory
         
-                        SwiftQuit.updateExcludedApps()
-                    }
-                } else {
-                    return
-                }
+        if (dialog.runModal() ==  NSApplication.ModalResponse.OK) {
+            let result = dialog.url
+            
+            if (result != nil) {
+                
+                swiftQuitExcludedApps.append(result!.path)
+                
+                let count = swiftQuitExcludedApps.count - 1
+                let indexSet = IndexSet(integer:count)
+                
+                excludedAppsTableView.beginUpdates()
+                excludedAppsTableView.insertRows(at:indexSet, withAnimation:.effectFade)
+                excludedAppsTableView.endUpdates()
+                
+                SwiftQuit.updateExcludedApps()
+            }
+        } else {
+            return
+        }
     }
-    
     
     @IBAction func removeExcludedApp(_ sender: Any) {
         let row = excludedAppsTableView.selectedRow
-    
-        if(row != -1){
         
-        let indexSet = IndexSet(integer:row)
+        if(row != -1){
+            
+            let indexSet = IndexSet(integer:row)
             excludedAppsTableView.beginUpdates()
             swiftQuitExcludedApps.remove(at: row)
             excludedAppsTableView.removeRows(at:indexSet, withAnimation:.effectFade)
@@ -188,12 +173,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
             
             SwiftQuit.updateExcludedApps()
         }
-    
+        
     }
     
-    
     func tableViewSelectionDidChange(_ notification: Notification) {
-       let selectionCount = excludedAppsTableView.selectedRowIndexes.count
+        let selectionCount = excludedAppsTableView.selectedRowIndexes.count
         if(selectionCount != 0){
             removeExcludedAppButtonOutlet.isHidden = false
         }
@@ -202,7 +186,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         }
     }
     
-
 }
 
 extension ViewController: NSTableViewDataSource {
@@ -210,10 +193,9 @@ extension ViewController: NSTableViewDataSource {
         return swiftQuitExcludedApps.count
     }
     
-    
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let application = swiftQuitExcludedApps[row]
-                
+        
         let columnIdentifier = tableColumn!.identifier.rawValue
         
         if columnIdentifier == "path" {
@@ -222,5 +204,5 @@ extension ViewController: NSTableViewDataSource {
             return nil
         }
     }
-     
+    
 }

@@ -11,7 +11,6 @@ import AXSwift
 import Swindler
 import PromiseKit
 
-
 class SwiftQuit {
     
     /*
@@ -72,7 +71,6 @@ class SwiftQuit {
         updateSettings()
     }
     
-    
     @objc class func closeWindowlessApps(){
         let runningApplications = NSWorkspace.shared.runningApplications
         let finderBundleIdentifier = "com.apple.finder"
@@ -91,34 +89,33 @@ class SwiftQuit {
             let applicationPID = app.processIdentifier
             
             if(myAppPid != applicationPID){
-            
-            var applicationName = app.bundleURL!.absoluteString
-            applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
-            applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
-            applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
-            
-
+                
+                var applicationName = app.bundleURL!.absoluteString
+                applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
+                applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
+                applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
+                
+                
                 if (shouldCloseApplication(applicationName: applicationName)) {
-                
-                var closeApp = true as Bool
-                
-                if let windowList = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) as? [[ String : Any]]{
                     
-                    for window in windowList {
-                        if let windowName = window[kCGWindowOwnerName as String] as? String {
-                            if windowName == app.localizedName!{
-                                closeApp = false
+                    var closeApp = true as Bool
+                    
+                    if let windowList = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) as? [[ String : Any]]{
+                        
+                        for window in windowList {
+                            if let windowName = window[kCGWindowOwnerName as String] as? String {
+                                if windowName == app.localizedName!{
+                                    closeApp = false
+                                }
                             }
                         }
                     }
+                    
+                    if (closeApp == true){
+                        terminateApplication(app: app)
+                    }
+                    
                 }
-                
-                if (closeApp == true){
-                    terminateApplication(app: app)
-                }
-        
-                
-            }
             }
         }
     }
@@ -129,7 +126,7 @@ class SwiftQuit {
                 print("Application still has windows; aborting")
                 return
             }
-
+            
             let processIdentifier = event.window.application.processIdentifier
             closeApplication(pid:processIdentifier, eventApp:event.window.application)
         }
@@ -137,19 +134,19 @@ class SwiftQuit {
     
     class func closeApplication(pid:Int32, eventApp:Swindler.Application) {
         let myAppPid = ProcessInfo.processInfo.processIdentifier
-
+        
         let app = AppKit.NSRunningApplication.init(processIdentifier: pid)!
         var applicationName = app.bundleURL!.absoluteString
         
-            if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
+        if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
             
             applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
             applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
-
+            
             if(myAppPid != pid){
                 if (shouldCloseApplication(applicationName: applicationName)) {
-
+                    
                     if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
                         terminateApplication(app: app)
                     }
@@ -163,9 +160,8 @@ class SwiftQuit {
                     
                 }
             }
-        
+            
         }
-        
         
     }
     
