@@ -138,6 +138,9 @@ class SwiftQuit {
         let app = AppKit.NSRunningApplication.init(processIdentifier: pid)!
         var applicationName = app.bundleURL!.absoluteString
         
+        print(app.isFinishedLaunching);
+        
+        if(app.isFinishedLaunching){
         if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
             
             applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
@@ -145,7 +148,14 @@ class SwiftQuit {
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
             
             if(myAppPid != pid){
-                if (shouldCloseApplication(applicationName: applicationName)) {
+                
+                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app"];
+
+                if(!excludedServices.contains(applicationName)){
+                    if (shouldCloseApplication(applicationName: applicationName)) {
+                    
+                    print(applicationName)
+                    
                     
                     if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
                         terminateApplication(app: app)
@@ -157,10 +167,13 @@ class SwiftQuit {
                             }
                         }
                     }
+                     
                     
+                }
                 }
             }
             
+        }
         }
         
     }

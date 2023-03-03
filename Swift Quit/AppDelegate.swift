@@ -25,11 +25,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
+        
         guard AXSwift.checkIsProcessTrusted(prompt: true) else {
             print("Not trusted as an AX process; please authorize and re-launch")
             NSApp.terminate(self)
             return
         }
+         
         
         Swindler.initialize().done { state in
             swindler = state
@@ -44,6 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if(swiftQuitSettings["launchAtLogin"] != "true"){
             openSettings();
         }
+        
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
