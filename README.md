@@ -10,5 +10,8 @@ https://swiftquit.com/downloads/Swift%20Quit.zip
 # Installation Instructions
 https://www.youtube.com/watch?v=WwWF-yekX-U
 
+# Upgrading To A New Version
+In order to upgrade to a new version you must first remove the old version from Security & Privacy => Accessibility.  Then you can drag the new version in and enable it.
+
 # Website
 https://swiftquit.com
