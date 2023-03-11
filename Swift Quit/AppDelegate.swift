@@ -68,7 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let closeAppsMenuItem = NSMenuItem(title: "Close Windowless Apps", action:  #selector(closeApps) , keyEquivalent: "c")
         menu.addItem(closeAppsMenuItem)
         menu.addItem(NSMenuItem.separator())
-        let openSettings = NSMenuItem(title: "Settings", action: #selector(openSettings) , keyEquivalent: "s")
+        let openSettings = NSMenuItem(title: "Settings...", action: #selector(openSettings) , keyEquivalent: ",")
         menu.addItem(openSettings)
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         statusItem.menu = menu
