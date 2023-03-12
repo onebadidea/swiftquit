@@ -18,7 +18,7 @@ class SwiftQuit {
      */
     
     @objc class func getSettings() -> [String:String] {
-        return userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] ?? ["automaticQuitEnabled":"true","quitWhen":"lastWindowClosed","launchAtLogin":"false"]
+        return userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] ?? ["automaticQuitEnabled":"true","quitWhen":"lastWindowClosed","launchAtLogin":"false","menubarIconEnabled":"true"]
     }
     
     @objc class func updateSettings(){

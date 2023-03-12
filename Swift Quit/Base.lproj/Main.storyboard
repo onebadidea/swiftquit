@@ -865,13 +865,13 @@
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YLn-bL-2yh" userLabel="Exclude Behaviour Popup">
                                 <rect key="frame" x="142" y="229" width="222" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="The Following Apps" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="gIv-uO-YfG" id="81e-vT-UiD" userLabel="Only The Following Apps">
+                                <popUpButtonCell key="cell" type="push" title="All Apps Except The Following" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="qiF-4g-w2A" id="81e-vT-UiD" userLabel="Only The Following Apps">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="JHk-fc-CEI">
                                         <items>
-                                            <menuItem title="The Following Apps" state="on" id="gIv-uO-YfG"/>
-                                            <menuItem title="All Apps Except The Following" id="qiF-4g-w2A" userLabel="All Apps Except The Following"/>
+                                            <menuItem title="All Apps Except The Following" state="on" id="qiF-4g-w2A" userLabel="All Apps Except The Following"/>
+                                            <menuItem title="The Following Apps" id="gIv-uO-YfG"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>

@@ -49,7 +49,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         
         if(swiftQuitSettings["menubarIconEnabled"] == "true"){
             displayMenubarIcon.state = NSControl.StateValue.on
-            //showQuitAppsWhen()
         }
         
         if(swiftQuitSettings["quitWhen"] == "lastWindowClosed"){
