@@ -53,8 +53,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
     }
     
+    func applicationWillEnterForeground(_ aNotification: Notification) {
+        openSettings();
+    }
+    
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+    }
+    
+    func applicationDidBecomeActive(_ aNotification: Notification) {
+        openSettings();
     }
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
