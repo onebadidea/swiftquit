@@ -15,6 +15,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     @IBOutlet weak var quitAppsWhenPopupOutlet: NSPopUpButton!
     @IBOutlet weak var quitAppsWhenLabelOutlet: NSTextField!
     
+    @IBOutlet weak var displayMenubarIcon: NSSwitch!
+    
     @IBOutlet weak var excludeBehaviourPopupOutlet: NSPopUpButton!
     @IBOutlet weak var excludeBehaviourLabelOutlet: NSTextField!
     
@@ -43,6 +45,11 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
             quitAppsAutomaticallySwitchOutlet.state = NSControl.StateValue.on
             showQuitAppsWhen()
+        }
+        
+        if(swiftQuitSettings["menubarIconEnabled"] == "true"){
+            displayMenubarIcon.state = NSControl.StateValue.on
+            //showQuitAppsWhen()
         }
         
         if(swiftQuitSettings["quitWhen"] == "lastWindowClosed"){
@@ -76,6 +83,21 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         }
         
     }
+    
+    @IBAction func displayMenubarIconToggle(_ sender: Any) {
+        
+        if displayMenubarIcon.state == NSControl.StateValue.on {
+            SwiftQuit.enableMenubarIcon()
+            SwiftQuit.loadMenu()
+        }
+        else{
+            SwiftQuit.disableMenubarIcon()
+            SwiftQuit.hideMenu()
+        }
+        
+    }
+    
+    
     
     @IBAction func automaticallyQuitApps(_ sender: Any) {
         

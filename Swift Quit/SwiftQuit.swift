@@ -52,6 +52,15 @@ class SwiftQuit {
         updateSettings()
     }
     
+    @objc class func enableMenubarIcon(){
+        swiftQuitSettings["menubarIconEnabled"] = "true"
+        updateSettings()
+    }
+    @objc class func disableMenubarIcon(){
+        swiftQuitSettings["menubarIconEnabled"] = "false"
+        updateSettings()
+    }
+    
     @objc class func enableLaunchAtLogin(){
         swiftQuitSettings["launchAtLogin"] = "true"
         updateSettings()
@@ -186,4 +195,28 @@ class SwiftQuit {
         print("Terminated " + (app.localizedName ?? "<no_name>"))
         app.terminate()
     }
+    
+    class func loadMenu(){
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        if let button = statusItem.button {
+            button.image = #imageLiteral(resourceName: "MenuIcon")
+            button.image?.size = NSSize(width: 18.0, height: 18.0)
+            button.image?.isTemplate = true
+        }
+        statusItem.isVisible = true
+        let openSettings = NSMenuItem(title: "Settings...", action: #selector(openSettings) , keyEquivalent: ",")
+        menu.addItem(openSettings)
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        statusItem.menu = menu
+    }
+    class func hideMenu(){
+        statusItem.isVisible = false
+    }
+    
+    @objc func openSettings() {
+        settingsWindow.showWindow(self)
+        settingsWindow.shouldCloseDocument = true
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
 }
