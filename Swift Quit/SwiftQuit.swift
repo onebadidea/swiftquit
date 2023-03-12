@@ -212,6 +212,9 @@ class SwiftQuit {
     class func hideMenu(){
         statusItem.isVisible = false
     }
+    class func showMenu(){
+        statusItem.isVisible = true
+    }
     
     @objc func openSettings() {
         settingsWindow.showWindow(self)

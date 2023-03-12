@@ -42,11 +42,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.terminate(self)
         }
         
+        SwiftQuit.loadMenu()
+        
         if(swiftQuitSettings["menubarIconEnabled"] == "true"){
-            SwiftQuit.loadMenu()
+            
         }
         else{
             openSettings();
+            SwiftQuit.hideMenu()
         }
         
         
@@ -54,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ aNotification: Notification) {
-        openSettings();
+        //openSettings();
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {

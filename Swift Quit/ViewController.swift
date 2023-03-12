@@ -87,7 +87,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         
         if displayMenubarIcon.state == NSControl.StateValue.on {
             SwiftQuit.enableMenubarIcon()
-            SwiftQuit.loadMenu()
+            SwiftQuit.showMenu()
         }
         else{
             SwiftQuit.disableMenubarIcon()
