@@ -26,38 +26,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
-        
         guard AXSwift.checkIsProcessTrusted(prompt: true) else {
             print("Not trusted as an AX process; please authorize and re-launch")
             NSApp.terminate(self)
             return
         }
-         
         
         Swindler.initialize().done { state in
             swindler = state
+            
             SwiftQuit.activateAutomaticAppClosing()
+            
+            self.loadMenu()
+            
+            if(swiftQuitSettings["menubarIconEnabled"] == "false"){
+                self.openSettings();
+                SwiftQuit.hideMenu()
+            }
+            
         }.catch { error in
             print("Fatal error: failed to initialize Swindler: \(error)")
             NSApp.terminate(self)
         }
         
-        SwiftQuit.loadMenu()
-        
-        if(swiftQuitSettings["menubarIconEnabled"] == "true"){
-            
-        }
-        else{
-            openSettings();
-            SwiftQuit.hideMenu()
-        }
-        
-        
-        
-    }
-    
-    func applicationWillEnterForeground(_ aNotification: Notification) {
-        //openSettings();
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -72,13 +63,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
+    @objc func loadMenu(){
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        if let button = statusItem.button {
+            button.image = #imageLiteral(resourceName: "MenuIcon")
+            button.image?.size = NSSize(width: 18.0, height: 18.0)
+            button.image?.isTemplate = true
+        }
+        statusItem.isVisible = true
+        let openSettings = NSMenuItem(title: "Settings...", action: #selector(openSettings) , keyEquivalent: ",")
+        menu.addItem(openSettings)
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        statusItem.menu = menu
+    }
     
     @objc func openSettings() {
         settingsWindow.showWindow(self)
         settingsWindow.shouldCloseDocument = true
         NSApp.activate(ignoringOtherApps: true)
     }
- 
-
+    
+    
 }
 

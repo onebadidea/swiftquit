@@ -11,18 +11,11 @@ import LaunchAtLogin
 class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     @objc dynamic var launchAtLogin = LaunchAtLogin.kvo
     
-    @IBOutlet weak var quitAppsAutomaticallySwitchOutlet: NSSwitch!
-    @IBOutlet weak var quitAppsWhenPopupOutlet: NSPopUpButton!
-    @IBOutlet weak var quitAppsWhenLabelOutlet: NSTextField!
-    
     @IBOutlet weak var displayMenubarIcon: NSSwitch!
-    
     @IBOutlet weak var excludeBehaviourPopupOutlet: NSPopUpButton!
     @IBOutlet weak var excludeBehaviourLabelOutlet: NSTextField!
-    
     @IBOutlet weak var excludedAppsTableView: NSTableView!
     @IBOutlet weak var removeExcludedAppButtonOutlet: NSButton!
-    
     @IBOutlet weak var launchAtLoginSwitch: NSSwitch!
     
     override func viewDidLoad() {
@@ -30,32 +23,19 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         NSApp.activate(ignoringOtherApps: true)
         view.window?.delegate = self
         
-        
         setupViews()
     }
     
     override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
-            
         }
     }
     
     func setupViews() {
-        if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
-            quitAppsAutomaticallySwitchOutlet.state = NSControl.StateValue.on
-            showQuitAppsWhen()
-        }
         
         if(swiftQuitSettings["menubarIconEnabled"] == "true"){
             displayMenubarIcon.state = NSControl.StateValue.on
-        }
-        
-        if(swiftQuitSettings["quitWhen"] == "lastWindowClosed"){
-            quitAppsWhenPopupOutlet.title = "Last Window Is Closed"
-        }
-        else{
-            quitAppsWhenPopupOutlet.title = "Any Window Is Closed"
         }
         
         excludeBehaviourLabelOutlet.textColor = .labelColor
@@ -94,43 +74,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
             SwiftQuit.hideMenu()
         }
         
-    }
-    
-    
-    
-    @IBAction func automaticallyQuitApps(_ sender: Any) {
-        
-        if quitAppsAutomaticallySwitchOutlet.state == NSControl.StateValue.on {
-            showQuitAppsWhen()
-            SwiftQuit.enableAutomaticQuit()
-            SwiftQuit.activateAutomaticAppClosing()
-        }
-        else{
-            hideQuitAppsWhen()
-            SwiftQuit.disableAutomaticQuit()
-        }
-        
-    }
-    
-    func showQuitAppsWhen(){
-        quitAppsWhenPopupOutlet.isEnabled = true
-        quitAppsWhenLabelOutlet.textColor = .labelColor
-    }
-    
-    func hideQuitAppsWhen(){
-        quitAppsWhenPopupOutlet.isEnabled = false
-        quitAppsWhenLabelOutlet.textColor = .systemGray
-    }
-    
-    @IBAction func changeQuitOn(_ sender: Any) {
-        
-        if(quitAppsWhenPopupOutlet.title == "Last Window Is Closed"){
-            SwiftQuit.enableQuitOnLastWindow()
-        }
-        else{
-            swiftQuitSettings["quitWhen"] = "anyWindowClosed"
-            SwiftQuit.enableQuitOnAnyWindow()
-        }
     }
     
     @IBAction func changeExcludeBehaviour(_ sender: Any) {

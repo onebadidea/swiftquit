@@ -18,7 +18,7 @@ class SwiftQuit {
      */
     
     @objc class func getSettings() -> [String:String] {
-        return userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] ?? ["automaticQuitEnabled":"true","quitWhen":"lastWindowClosed","launchAtLogin":"false","menubarIconEnabled":"true"]
+        return userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] ?? ["launchAtLogin":"false","menubarIconEnabled":"true","excludeBehaviour":"excludeApps"]
     }
     
     @objc class func updateSettings(){
@@ -43,15 +43,6 @@ class SwiftQuit {
         updateSettings()
     }
     
-    @objc class func enableAutomaticQuit(){
-        swiftQuitSettings["automaticQuitEnabled"] = "true"
-        updateSettings()
-    }
-    @objc class func disableAutomaticQuit(){
-        swiftQuitSettings["automaticQuitEnabled"] = "false"
-        updateSettings()
-    }
-    
     @objc class func enableMenubarIcon(){
         swiftQuitSettings["menubarIconEnabled"] = "true"
         updateSettings()
@@ -68,65 +59,6 @@ class SwiftQuit {
     @objc class func disableLaunchAtLogin(){
         swiftQuitSettings["launchAtLogin"] = "false"
         updateSettings()
-    }
-    
-    
-    @objc class func enableQuitOnLastWindow(){
-        swiftQuitSettings["quitWhen"] = "lastWindowClosed"
-        updateSettings()
-    }
-    @objc class func enableQuitOnAnyWindow(){
-        swiftQuitSettings["quitWhen"] = "anyWindowClosed"
-        updateSettings()
-    }
-    
-    @objc class func closeWindowlessApps(){
-        let runningApplications = NSWorkspace.shared.runningApplications
-        let finderBundleIdentifier = "com.apple.finder"
-        
-        let myAppPid = ProcessInfo.processInfo.processIdentifier
-        
-        
-        runningApplications.filter {
-            $0 != NSRunningApplication.current
-            && $0.activationPolicy == .regular
-            && $0.bundleIdentifier != finderBundleIdentifier
-        }
-        .forEach {
-            app in
-            
-            let applicationPID = app.processIdentifier
-            
-            if(myAppPid != applicationPID){
-                
-                var applicationName = app.bundleURL!.absoluteString
-                applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
-                applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
-                applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
-                
-                
-                if (shouldCloseApplication(applicationName: applicationName)) {
-                    
-                    var closeApp = true as Bool
-                    
-                    if let windowList = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) as? [[ String : Any]]{
-                        
-                        for window in windowList {
-                            if let windowName = window[kCGWindowOwnerName as String] as? String {
-                                if windowName == app.localizedName!{
-                                    closeApp = false
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (closeApp == true){
-                        terminateApplication(app: app)
-                    }
-                    
-                }
-            }
-        }
     }
     
     @objc class func activateAutomaticAppClosing(){
@@ -150,8 +82,6 @@ class SwiftQuit {
         print(app.isFinishedLaunching);
         
         if(app.isFinishedLaunching){
-        if(swiftQuitSettings["automaticQuitEnabled"] == "true"){
-            
             applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
             applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
             applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
@@ -159,31 +89,22 @@ class SwiftQuit {
             if(myAppPid != pid){
                 
                 let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app"];
-
+                
                 if(!excludedServices.contains(applicationName)){
                     if (shouldCloseApplication(applicationName: applicationName)) {
-                    
-                    print(applicationName)
-                    
-                    
-                    if(swiftQuitSettings["quitWhen"] == "anyWindowClosed"){
-                        terminateApplication(app: app)
-                    }
-                    else {
+                        
+                        print(applicationName)
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                             if eventApp.knownWindows.isEmpty {
                                 terminateApplication(app: app)
                             }
                         }
                     }
-                     
-                    
-                }
                 }
             }
-            
         }
-        }
+        
         
     }
     
@@ -196,30 +117,13 @@ class SwiftQuit {
         app.terminate()
     }
     
-    class func loadMenu(){
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let button = statusItem.button {
-            button.image = #imageLiteral(resourceName: "MenuIcon")
-            button.image?.size = NSSize(width: 18.0, height: 18.0)
-            button.image?.isTemplate = true
-        }
-        statusItem.isVisible = true
-        let openSettings = NSMenuItem(title: "Settings...", action: #selector(openSettings) , keyEquivalent: ",")
-        menu.addItem(openSettings)
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-        statusItem.menu = menu
-    }
     class func hideMenu(){
         statusItem.isVisible = false
     }
+    
     class func showMenu(){
         statusItem.isVisible = true
     }
     
-    @objc func openSettings() {
-        settingsWindow.showWindow(self)
-        settingsWindow.shouldCloseDocument = true
-        NSApp.activate(ignoringOtherApps: true)
-    }
-
+    
 }

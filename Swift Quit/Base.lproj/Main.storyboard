@@ -706,27 +706,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Swift_Quit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="459" height="411"/>
+                        <rect key="frame" x="0.0" y="0.0" width="459" height="332"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="U8g-zg-HX3">
-                                <rect key="frame" x="28" y="331" width="36" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <action selector="automaticallyQuitApps:" target="XfG-lQ-9wD" id="fsy-4g-TjM"/>
-                                </connections>
-                            </switch>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3o1-cB-b0a">
-                                <rect key="frame" x="71" y="334" width="150" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Automatically Quit Apps" id="J1m-o9-8N2">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="sxz-6t-zUP">
-                                <rect key="frame" x="28" y="363" width="36" height="21"/>
+                                <rect key="frame" x="28" y="284" width="36" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="launchAtLoginToggle:" target="XfG-lQ-9wD" id="gni-dm-Awn"/>
@@ -734,7 +718,7 @@
                                 </connections>
                             </switch>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ICr-lq-5Ag">
-                                <rect key="frame" x="71" y="366" width="183" height="16"/>
+                                <rect key="frame" x="71" y="287" width="183" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Start Swift Quit Automatically" id="F0t-LT-dKo">
                                     <font key="font" metaFont="system"/>
@@ -743,21 +727,63 @@
                                 </textFieldCell>
                             </textField>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yfr-1e-je9">
-                                <rect key="frame" x="382" y="335" width="48" height="48"/>
+                                <rect key="frame" x="386" y="256" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Icon256" id="1B3-ha-wxW"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jpv-fI-EXo">
-                                <rect key="frame" x="390" y="316" width="32" height="16"/>
+                                <rect key="frame" x="394" y="237" width="32" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="v 1.4" id="6SP-te-joH">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="v 1.5" id="6SP-te-joH">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rXe-IF-9lm" userLabel="Exclude Behaviour Label">
+                                <rect key="frame" x="28" y="222" width="52" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" title="Exclude" id="TN8-1K-EUF">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="se9-ao-qJt">
+                                <rect key="frame" x="28" y="254" width="36" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="displayMenubarIconToggle:" target="XfG-lQ-9wD" id="N2u-as-ZMx"/>
+                                </connections>
+                            </switch>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TaF-kw-tci">
+                                <rect key="frame" x="71" y="257" width="150" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Display Icon In Menubar" id="ry4-hY-SU5">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YLn-bL-2yh" userLabel="Exclude Behaviour Popup">
+                                <rect key="frame" x="83" y="216" width="222" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <popUpButtonCell key="cell" type="push" title="All Apps Except The Following" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="qiF-4g-w2A" id="81e-vT-UiD" userLabel="Only The Following Apps">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="JHk-fc-CEI">
+                                        <items>
+                                            <menuItem title="All Apps Except The Following" state="on" id="qiF-4g-w2A" userLabel="All Apps Except The Following"/>
+                                            <menuItem title="The Following Apps" id="gIv-uO-YfG"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="changeExcludeBehaviour:" target="XfG-lQ-9wD" id="VFp-hm-R8T"/>
+                                </connections>
+                            </popUpButton>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQS-hZ-61c">
-                                <rect key="frame" x="30" y="20" width="364" height="176"/>
+                                <rect key="frame" x="29" y="30" width="364" height="176"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <clipView key="contentView" focusRingType="none" id="I7C-cG-mpl">
                                     <rect key="frame" x="1" y="1" width="362" height="174"/>
@@ -788,7 +814,7 @@
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="0.0" right="0.0" top="7" bottom="0.0"/>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="B9p-2E-Zzp">
-                                    <rect key="frame" x="1" y="114" width="362" height="16"/>
+                                    <rect key="frame" x="1" y="159" width="362" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="PrB-Ix-clx">
@@ -797,7 +823,7 @@
                                 </scroller>
                             </scrollView>
                             <button identifier="addWhitelistAppBtn" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JJN-0m-2PI">
-                                <rect key="frame" x="407" y="173" width="23" height="24"/>
+                                <rect key="frame" x="406" y="183" width="23" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8oq-Ei-7O1">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -808,7 +834,7 @@
                                 </connections>
                             </button>
                             <button identifier="removeWhitelistAppBtn" hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iSS-4h-sXR">
-                                <rect key="frame" x="407" y="143" width="23" height="24"/>
+                                <rect key="frame" x="406" y="153" width="23" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSMenuMixedStateTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SKa-Oq-wFQ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -818,83 +844,6 @@
                                     <action selector="removeExcludedApp:" target="XfG-lQ-9wD" id="srF-Za-zJv"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fAT-jx-ByR">
-                                <rect key="frame" x="28" y="204" width="36" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Apps" id="7W4-X9-qxd">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qN4-5U-GX0">
-                                <rect key="frame" x="28" y="265" width="103" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" title="Quit Apps When" id="xml-V0-jKx">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CR6-on-I7J">
-                                <rect key="frame" x="142" y="259" width="222" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="Last Window Is Closed" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="7DS-VM-2na" id="FeE-zL-Cbs">
-                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="Orb-TU-Aub">
-                                        <items>
-                                            <menuItem title="Last Window Is Closed" state="on" id="7DS-VM-2na"/>
-                                            <menuItem title="Any Window Is Closed" id="ayH-Ap-OlI"/>
-                                        </items>
-                                    </menu>
-                                </popUpButtonCell>
-                                <connections>
-                                    <action selector="changeQuitOn:" target="XfG-lQ-9wD" id="D34-O1-9fY"/>
-                                </connections>
-                            </popUpButton>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rXe-IF-9lm" userLabel="Exclude Behaviour Label">
-                                <rect key="frame" x="28" y="235" width="61" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" enabled="NO" title="Only Quit" id="TN8-1K-EUF">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YLn-bL-2yh" userLabel="Exclude Behaviour Popup">
-                                <rect key="frame" x="142" y="229" width="222" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="All Apps Except The Following" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="qiF-4g-w2A" id="81e-vT-UiD" userLabel="Only The Following Apps">
-                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="JHk-fc-CEI">
-                                        <items>
-                                            <menuItem title="All Apps Except The Following" state="on" id="qiF-4g-w2A" userLabel="All Apps Except The Following"/>
-                                            <menuItem title="The Following Apps" id="gIv-uO-YfG"/>
-                                        </items>
-                                    </menu>
-                                </popUpButtonCell>
-                                <connections>
-                                    <action selector="changeExcludeBehaviour:" target="XfG-lQ-9wD" id="VFp-hm-R8T"/>
-                                </connections>
-                            </popUpButton>
-                            <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="se9-ao-qJt">
-                                <rect key="frame" x="28" y="299" width="36" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <action selector="displayMenubarIconToggle:" target="XfG-lQ-9wD" id="N2u-as-ZMx"/>
-                                </connections>
-                            </switch>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TaF-kw-tci">
-                                <rect key="frame" x="71" y="302" width="150" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Display Icon In Menubar" id="ry4-hY-SU5">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                     </view>
                     <connections>
@@ -903,16 +852,13 @@
                         <outlet property="excludeBehaviourPopupOutlet" destination="YLn-bL-2yh" id="8Xe-1h-ea1"/>
                         <outlet property="excludedAppsTableView" destination="2RC-Ux-Uzx" id="bJz-iv-Tv2"/>
                         <outlet property="launchAtLoginSwitch" destination="sxz-6t-zUP" id="J4E-Qp-JFm"/>
-                        <outlet property="quitAppsAutomaticallySwitchOutlet" destination="U8g-zg-HX3" id="d8k-Rd-nrI"/>
-                        <outlet property="quitAppsWhenLabelOutlet" destination="qN4-5U-GX0" id="T48-fr-XSc"/>
-                        <outlet property="quitAppsWhenPopupOutlet" destination="CR6-on-I7J" id="Yhs-zg-GxM"/>
                         <outlet property="removeExcludedAppButtonOutlet" destination="iSS-4h-sXR" id="CeX-us-HM7"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="NFW-oP-p1K"/>
             </objects>
-            <point key="canvasLocation" x="75.5" y="763.5"/>
+            <point key="canvasLocation" x="75.5" y="724"/>
         </scene>
     </scenes>
     <resources>
