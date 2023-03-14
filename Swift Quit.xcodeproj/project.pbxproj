@@ -157,6 +157,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		B297CFB12866116B00C48ABC /* Launch at Login Helper */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
