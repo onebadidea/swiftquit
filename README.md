@@ -24,4 +24,4 @@ https://www.youtube.com/watch?v=WwWF-yekX-U
 9. Optionally enable start automatically in settings
 
 # Upgrading To A New Version
-In order to upgrade to a new version you must first remove the old version from Security & Privacy => Accessibility.  Then you can drag the new version in and enable it.
+In order to upgrade to a new version you must first remove the old version from Sytem Preferences => Security & Privacy => Accessibility.  Then you can drag the new version in and enable it.
