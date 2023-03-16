@@ -17,7 +17,6 @@ https://www.youtube.com/watch?v=WwWF-yekX-U
 2. Or download from https://swiftquit.com, unzip, and move app to applications folder.
 ------------
 3. Open finder to applications folder and ctrl+click swift quit.app then select open (You may need to do this twice)
-4. Click "Open"
 5. When prompted click open system preferences
 6. Unlock system preferences by clicking the lock icon
 7. Drag Swift Quit.app into the accessibility list and enable it
