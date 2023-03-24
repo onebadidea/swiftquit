@@ -13,7 +13,6 @@ import PromiseKit
 var userDefaults = UserDefaults.standard
 var swiftQuitSettings = SwiftQuit.getSettings()
 var swiftQuitExcludedApps = SwiftQuit.getExcludedApps()
-
 let storyboard = NSStoryboard(name: "Main", bundle: nil)
 var settingsWindow = (storyboard.instantiateController(withIdentifier: "settings") as! NSWindowController)
 var menu = NSMenu()

@@ -88,7 +88,7 @@ class SwiftQuit {
             
             if(myAppPid != pid){
                 
-                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app"];
+                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"];
                 
                 if(!excludedServices.contains(applicationName)){
                     if (shouldCloseApplication(applicationName: applicationName)) {
