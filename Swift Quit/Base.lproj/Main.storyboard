@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -706,11 +706,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="Swift_Quit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="459" height="332"/>
+                        <rect key="frame" x="0.0" y="0.0" width="459" height="362"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="sxz-6t-zUP">
-                                <rect key="frame" x="28" y="284" width="36" height="21"/>
+                                <rect key="frame" x="28" y="314" width="36" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="launchAtLoginToggle:" target="XfG-lQ-9wD" id="gni-dm-Awn"/>
@@ -718,7 +718,7 @@
                                 </connections>
                             </switch>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ICr-lq-5Ag">
-                                <rect key="frame" x="71" y="287" width="183" height="16"/>
+                                <rect key="frame" x="71" y="317" width="183" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Start Swift Quit Automatically" id="F0t-LT-dKo">
                                     <font key="font" metaFont="system"/>
@@ -727,12 +727,12 @@
                                 </textFieldCell>
                             </textField>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yfr-1e-je9">
-                                <rect key="frame" x="386" y="256" width="48" height="48"/>
+                                <rect key="frame" x="386" y="286" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Icon256" id="1B3-ha-wxW"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jpv-fI-EXo">
-                                <rect key="frame" x="394" y="237" width="32" height="16"/>
+                                <rect key="frame" x="394" y="267" width="32" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="v 1.5" id="6SP-te-joH">
                                     <font key="font" metaFont="system"/>
@@ -812,16 +812,16 @@
                                 </textFieldCell>
                             </textField>
                             <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="se9-ao-qJt">
-                                <rect key="frame" x="28" y="254" width="36" height="21"/>
+                                <rect key="frame" x="28" y="284" width="36" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="displayMenubarIconToggle:" target="XfG-lQ-9wD" id="N2u-as-ZMx"/>
                                 </connections>
                             </switch>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TaF-kw-tci">
-                                <rect key="frame" x="71" y="257" width="150" height="16"/>
+                                <rect key="frame" x="71" y="287" width="149" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Display Icon In Menubar" id="ry4-hY-SU5">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Display Icon in Menubar" id="ry4-hY-SU5">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -844,6 +844,22 @@
                                     <action selector="changeExcludeBehaviour:" target="XfG-lQ-9wD" id="VFp-hm-R8T"/>
                                 </connections>
                             </popUpButton>
+                            <switch horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" controlSize="small" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="gmf-h2-qQq" userLabel="Launch Hidden Switch">
+                                <rect key="frame" x="28" y="254" width="36" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="launchHiddenToggle:" target="XfG-lQ-9wD" id="Xu3-7h-zGE"/>
+                                </connections>
+                            </switch>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D4a-wa-IuM">
+                                <rect key="frame" x="71" y="257" width="128" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hide App on Startup" id="GWv-jd-m1v">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
@@ -852,6 +868,7 @@
                         <outlet property="excludeBehaviourPopupOutlet" destination="YLn-bL-2yh" id="8Xe-1h-ea1"/>
                         <outlet property="excludedAppsTableView" destination="2RC-Ux-Uzx" id="bJz-iv-Tv2"/>
                         <outlet property="launchAtLoginSwitch" destination="sxz-6t-zUP" id="J4E-Qp-JFm"/>
+                        <outlet property="launchHiddenSwitch" destination="gmf-h2-qQq" id="BmN-4k-8TR"/>
                         <outlet property="removeExcludedAppButtonOutlet" destination="iSS-4h-sXR" id="CeX-us-HM7"/>
                     </connections>
                 </viewController>
@@ -863,7 +880,7 @@
     </scenes>
     <resources>
         <image name="Icon256" width="256" height="256"/>
-        <image name="NSAddTemplate" width="14" height="13"/>
-        <image name="NSMenuMixedStateTemplate" width="14" height="4"/>
+        <image name="NSAddTemplate" width="18" height="17"/>
+        <image name="NSMenuMixedStateTemplate" width="18" height="5"/>
     </resources>
 </document>
