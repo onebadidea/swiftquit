@@ -39,8 +39,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.loadMenu()
             
             if(swiftQuitSettings["menubarIconEnabled"] == "false"){
-                self.openSettings();
                 SwiftQuit.hideMenu()
+            }
+            
+            if (swiftQuitSettings["launchHidden"] == "false"){
+                self.openSettings()
             }
             
         }.catch { error in
@@ -56,6 +59,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidBecomeActive(_ aNotification: Notification) {
         openSettings();
+    }
+    
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if (!flag) {
+            openSettings();
+        }
+        return true
     }
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

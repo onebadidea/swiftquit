@@ -18,7 +18,7 @@ class SwiftQuit {
      */
     
     @objc class func getSettings() -> [String:String] {
-        return userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] ?? ["launchAtLogin":"false","menubarIconEnabled":"true","excludeBehaviour":"excludeApps"]
+        return userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] ?? ["launchAtLogin":"false","menubarIconEnabled":"true","excludeBehaviour":"excludeApps","launchHidden":"true"]
     }
     
     @objc class func updateSettings(){
@@ -58,6 +58,15 @@ class SwiftQuit {
     }
     @objc class func disableLaunchAtLogin(){
         swiftQuitSettings["launchAtLogin"] = "false"
+        updateSettings()
+    }
+    
+    @objc class func enableLaunchHidden(){
+        swiftQuitSettings["launchHidden"] = "true"
+        updateSettings()
+    }
+    @objc class func disableLaunchHidden(){
+        swiftQuitSettings["launchHidden"] = "false"
         updateSettings()
     }
     
