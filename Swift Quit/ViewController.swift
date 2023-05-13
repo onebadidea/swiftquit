@@ -11,6 +11,7 @@ import LaunchAtLogin
 class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     @objc dynamic var launchAtLogin = LaunchAtLogin.kvo
     
+    @IBOutlet weak var launchHiddenSwitch: NSSwitch!
     @IBOutlet weak var displayMenubarIcon: NSSwitch!
     @IBOutlet weak var excludeBehaviourPopupOutlet: NSPopUpButton!
     @IBOutlet weak var excludeBehaviourLabelOutlet: NSTextField!
@@ -38,6 +39,10 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         
         if(swiftQuitSettings["menubarIconEnabled"] == "true"){
             displayMenubarIcon.state = NSControl.StateValue.on
+        }
+        
+        if(swiftQuitSettings["launchHidden"] == "true"){
+            launchHiddenSwitch.state = NSControl.StateValue.on
         }
         
         excludeBehaviourLabelOutlet.textColor = .labelColor
@@ -78,8 +83,26 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
         else{
             SwiftQuit.disableMenubarIcon()
             SwiftQuit.hideMenu()
+            
+            let disableMenubarAlert = NSAlert()
+            disableMenubarAlert.messageText = "App Hidden from Menubar"
+            disableMenubarAlert.informativeText = "If you need to access it, simply launch the app again to display the settings page."
+            disableMenubarAlert.alertStyle = .informational
+            disableMenubarAlert.addButton(withTitle: "OK")
+            disableMenubarAlert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+
         }
         
+    }
+    
+    @IBAction func launchHiddenToggle(_ sender: Any) {
+        
+        if launchHiddenSwitch.state == NSControl.StateValue.on {
+            SwiftQuit.enableLaunchHidden()
+        }
+        else{
+            SwiftQuit.disableLaunchHidden()
+        }
     }
     
     @IBAction func changeExcludeBehaviour(_ sender: Any) {
