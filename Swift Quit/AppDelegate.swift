@@ -24,9 +24,10 @@ var lastLaunchedAppPid : Int32 = 0;
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+
         guard AXSwift.checkIsProcessTrusted(prompt: true) else {
             print("Not trusted as an AX process; please authorize and re-launch")
+            showAccessibilityPermissionAlert()
             NSApp.terminate(self)
             return
         }
@@ -91,7 +92,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         settingsWindow.shouldCloseDocument = true
         NSApp.activate(ignoringOtherApps: true)
     }
-    
-    
+
+    func showAccessibilityPermissionAlert() {
+        let alert = NSAlert()
+        alert.messageText = "Accessibility Permission Required"
+        alert.informativeText = """
+        Swift Quit needs accessibility permissions to monitor when app windows are closed.
+
+        To grant permission:
+        1. Open System Settings
+        2. Go to Privacy & Security → Accessibility
+        3. Click the + button and add Swift Quit
+        4. Relaunch Swift Quit
+
+        The app will now quit. Please grant permission and try again.
+        """
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Open System Settings")
+        alert.addButton(withTitle: "Quit")
+
+        NSApp.activate(ignoringOtherApps: true)
+        let response = alert.runModal()
+
+        if response == .alertFirstButtonReturn {
+            // Open System Settings to Privacy & Security → Accessibility
+            if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
+                NSWorkspace.shared.open(url)
+            }
+        }
+    }
+
+
 }
 
