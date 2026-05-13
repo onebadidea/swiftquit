@@ -42,7 +42,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 SwiftQuit.hideMenu()
             }
             
-            if (swiftQuitSettings["launchHidden"] == "false"){
+            // 1. Check if the app was launched silently or via system login items
+            let isAutoLogin = CommandLine.arguments.contains("--autologin")
+            
+            // 2. ONLY open UI if it's NOT an auto-login AND launchHidden setting is false
+            if !isAutoLogin && (swiftQuitSettings["launchHidden"] == "false") {
                 self.openSettings()
             }
             
@@ -57,10 +61,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
+    // ⚠️ REMOVED: `applicationDidBecomeActive` previously called `openSettings()`.
+    // When macOS boots the app at system login, it marks it active, which triggered the UI.
     func applicationDidBecomeActive(_ aNotification: Notification) {
-        openSettings();
+        // Keep blank so auto-activation doesn't force windows open on startup.
     }
     
+    // 3. User explicitly clicks the app icon in Dock/Finder to reveal settings manually
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
             openSettings();
@@ -91,7 +98,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         settingsWindow.shouldCloseDocument = true
         NSApp.activate(ignoringOtherApps: true)
     }
-    
-    
 }
+
 
