@@ -1,4 +1,12 @@
 # Swift Quit
+
+> [!NOTE]
+> This is an unofficial fork of [onebadidea/swiftquit](https://github.com/onebadidea/swiftquit).
+> It includes a fix that restores automatic app quitting on macOS 26.
+>
+> The official downloads and Homebrew package referenced below are maintained
+> by the original project and may not include this fix.
+
 Swift Quit enables automatic quitting of macOS apps when closing their windows (clicking the red x). It can be configured to quit when the last window of any app closed, or restricted to a specific list of apps. Additionally, you can exclude apps you dont want to quit automatically.
 
 # Use At Your Own Risk

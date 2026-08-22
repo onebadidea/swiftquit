@@ -7,11 +7,17 @@
 
 import Foundation
 import AppKit
-import AXSwift
-import Swindler
-import PromiseKit
+import ApplicationServices
 
 class SwiftQuit {
+
+    private static let windowMonitoringQueue = DispatchQueue(
+        label: "onebadidea.Swift-Quit.window-monitoring",
+        qos: .utility
+    )
+    private static var windowPollingTimer: DispatchSourceTimer?
+    private static var knownWindowCounts: [pid_t: Int] = [:]
+    private static var scheduledTerminationProcessIdentifiers = Set<pid_t>()
     
     /*
      Settings
@@ -76,68 +82,169 @@ class SwiftQuit {
     }
 
     @objc class func activateAutomaticAppClosing(){
-        swindler.on { (event: WindowDestroyedEvent) in
-            if !event.window.application.knownWindows.isEmpty {
-                print("Application still has windows; aborting")
-                return
-            }
-            
-            let processIdentifier = event.window.application.processIdentifier
-            closeApplication(pid:processIdentifier, eventApp:event.window.application)
+        guard windowPollingTimer == nil else {
+            return
         }
+
+        // Window-destroyed events are not delivered reliably on macOS 26.
+        // Poll the accessibility window list and detect nonzero-to-zero
+        // transitions instead.
+        let pollingTimer = DispatchSource.makeTimerSource(
+            queue: windowMonitoringQueue
+        )
+        pollingTimer.schedule(
+            deadline: .now(),
+            repeating: .milliseconds(500),
+            leeway: .milliseconds(100)
+        )
+        pollingTimer.setEventHandler {
+            inspectRunningApplications()
+        }
+        windowPollingTimer = pollingTimer
+        pollingTimer.resume()
     }
-    
-    class func closeApplication(pid:Int32, eventApp:Swindler.Application) {
-        let myAppPid = ProcessInfo.processInfo.processIdentifier
 
-        guard let app = AppKit.NSRunningApplication.init(processIdentifier: pid) else {
-            print("Application with PID \(pid) no longer running")
-            return
-        }
+    private class func inspectRunningApplications() {
+        autoreleasepool {
+            let applications = NSWorkspace.shared.runningApplications.filter {
+                shouldMonitor(application: $0)
+            }
+            let runningProcessIdentifiers = Set(
+                applications.map(\.processIdentifier)
+            )
 
-        guard let bundleURL = app.bundleURL else {
-            print("Application with PID \(pid) has no bundle URL")
-            return
-        }
-        var applicationName = bundleURL.absoluteString
+            for application in applications {
+                guard let currentWindowCount = accessibleWindowCount(
+                    for: application
+                ) else {
+                    continue
+                }
 
-        print(app.isFinishedLaunching);
-        
-        if(app.isFinishedLaunching){
-            applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
-            applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
-            applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
-            
-            if(myAppPid != pid){
-                
-                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"];
-                
-                if(!excludedServices.contains(applicationName)){
-                    if (shouldCloseApplication(applicationName: applicationName)) {
-                        
-                        print(applicationName)
-                        
-                        let closeDelay = Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(closeDelay)) {
-                            if eventApp.knownWindows.isEmpty {
-                                terminateApplication(app: app)
-                            }
-                        }
-                    }
+                let processIdentifier = application.processIdentifier
+                let previousWindowCount = knownWindowCounts.updateValue(
+                    currentWindowCount,
+                    forKey: processIdentifier
+                )
+
+                if previousWindowCount ?? 0 > 0 && currentWindowCount == 0 {
+                    scheduleTermination(for: application)
                 }
             }
+
+            knownWindowCounts = knownWindowCounts.filter {
+                runningProcessIdentifiers.contains($0.key)
+            }
+            scheduledTerminationProcessIdentifiers.formIntersection(
+                runningProcessIdentifiers
+            )
         }
-        
-        
+    }
+
+    private class func shouldMonitor(
+        application: NSRunningApplication
+    ) -> Bool {
+        guard let applicationPath = application.bundleURL?.path else {
+            return false
+        }
+
+        return application.processIdentifier
+            != ProcessInfo.processInfo.processIdentifier
+            && !application.isTerminated
+            && application.isFinishedLaunching
+            && application.activationPolicy == .regular
+            && !excludedSystemApplications.contains(applicationPath)
+    }
+
+    private class func accessibleWindowCount(
+        for application: NSRunningApplication
+    ) -> Int? {
+        let applicationElement = AXUIElementCreateApplication(
+            application.processIdentifier
+        )
+        var copiedWindowElements: CFTypeRef?
+        let copyError = AXUIElementCopyAttributeValue(
+            applicationElement,
+            kAXWindowsAttribute as CFString,
+            &copiedWindowElements
+        )
+
+        guard copyError == .success else {
+            return nil
+        }
+
+        return (copiedWindowElements as? [AXUIElement] ?? []).count
+    }
+
+    private class func scheduleTermination(
+        for application: NSRunningApplication
+    ) {
+        let processIdentifier = application.processIdentifier
+        guard !scheduledTerminationProcessIdentifiers.contains(
+            processIdentifier
+        ) else {
+            return
+        }
+
+        scheduledTerminationProcessIdentifiers.insert(processIdentifier)
+        let expectedBundleIdentifier = application.bundleIdentifier
+        let expectedBundleURL = application.bundleURL
+        let currentSettings = getSettings()
+        let closeDelay = Int(currentSettings["closeDelay"] ?? "2") ?? 2
+
+        windowMonitoringQueue.asyncAfter(
+            deadline: .now() + .seconds(closeDelay)
+        ) {
+            scheduledTerminationProcessIdentifiers.remove(processIdentifier)
+
+            guard let runningApplication = NSRunningApplication(
+                processIdentifier: processIdentifier
+            ),
+            shouldMonitor(application: runningApplication),
+            runningApplication.bundleIdentifier == expectedBundleIdentifier,
+            runningApplication.bundleURL == expectedBundleURL,
+            let currentWindowCount = accessibleWindowCount(
+                for: runningApplication
+            ) else {
+                return
+            }
+
+            knownWindowCounts[processIdentifier] = currentWindowCount
+
+            guard currentWindowCount == 0,
+                  let applicationPath = runningApplication.bundleURL?.path,
+                  shouldCloseApplication(applicationPath: applicationPath)
+            else {
+                return
+            }
+
+            DispatchQueue.main.async {
+                terminateApplication(application: runningApplication)
+            }
+        }
+    }
+
+    private static let excludedSystemApplications: Set<String> = [
+        "/System/Library/CoreServices/Spotlight.app",
+        "/System/Library/CoreServices/Finder.app",
+        "/System/Library/CoreServices/NotificationCenter.app"
+    ]
+    
+    class func shouldCloseApplication(applicationPath: String) -> Bool {
+        let currentSettings = getSettings()
+        let currentExcludedApplications = getExcludedApps()
+
+        return (
+            currentSettings["excludeBehaviour"] == "excludeApps"
+                && !currentExcludedApplications.contains(applicationPath)
+        ) || (
+            currentSettings["excludeBehaviour"] == "includeApps"
+                && currentExcludedApplications.contains(applicationPath)
+        )
     }
     
-    class func shouldCloseApplication(applicationName:String) -> Bool {
-        return (swiftQuitSettings["excludeBehaviour"] == "excludeApps" && !swiftQuitExcludedApps.contains(applicationName)) || (swiftQuitSettings["excludeBehaviour"] == "includeApps" && swiftQuitExcludedApps.contains(applicationName))
-    }
-    
-    class func terminateApplication(app:NSRunningApplication) {
-        print("Terminated " + (app.localizedName ?? "<no_name>"))
-        app.terminate()
+    class func terminateApplication(application: NSRunningApplication) {
+        print("Terminated " + (application.localizedName ?? "<no_name>"))
+        application.terminate()
     }
     
     class func hideMenu(){
