@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B27644922864C3BC000259CC /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = B27644912864C3BC000259CC /* LaunchAtLogin */; };
-		B281175728732DA40080A780 /* Swindler in Frameworks */ = {isa = PBXBuildFile; productRef = B281175628732DA40080A780 /* Swindler */; };
 		B2C8BE1C283EBF8F00DB5C94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8BE1B283EBF8F00DB5C94 /* AppDelegate.swift */; };
 		B2C8BE1E283EBF8F00DB5C94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8BE1D283EBF8F00DB5C94 /* ViewController.swift */; };
 		B2C8BE20283EBF9100DB5C94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C8BE1F283EBF9100DB5C94 /* Assets.xcassets */; };
@@ -32,7 +31,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B281175728732DA40080A780 /* Swindler in Frameworks */,
 				B27644922864C3BC000259CC /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,7 +95,6 @@
 			name = "Swift Quit";
 			packageProductDependencies = (
 				B27644912864C3BC000259CC /* LaunchAtLogin */,
-				B281175628732DA40080A780 /* Swindler */,
 			);
 			productName = "Swift Quit";
 			productReference = B2C8BE18283EBF8E00DB5C94 /* Swift Quit.app */;
@@ -128,10 +125,7 @@
 			);
 			mainGroup = B2C8BE0F283EBF8E00DB5C94;
 			packageReferences = (
-				B2C8BE2D283EF54B00DB5C94 /* XCRemoteSwiftPackageReference "Swindler" */,
 				B27644902864C3BC000259CC /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
-				B2811748287240000080A780 /* XCRemoteSwiftPackageReference "Swindler" */,
-				B281174B287243B40080A780 /* XCRemoteSwiftPackageReference "Swindler" */,
 			);
 			productRefGroup = B2C8BE19283EBF8E00DB5C94 /* Products */;
 			projectDirPath = "";
@@ -410,30 +404,6 @@
 				kind = branch;
 			};
 		};
-		B2811748287240000080A780 /* XCRemoteSwiftPackageReference "Swindler" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tmandry/Swindler";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		B281174B287243B40080A780 /* XCRemoteSwiftPackageReference "Swindler" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tmandry/Swindler";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		B2C8BE2D283EF54B00DB5C94 /* XCRemoteSwiftPackageReference "Swindler" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tmandry/Swindler";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -441,11 +411,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B27644902864C3BC000259CC /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
-		};
-		B281175628732DA40080A780 /* Swindler */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B281174B287243B40080A780 /* XCRemoteSwiftPackageReference "Swindler" */;
-			productName = Swindler;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

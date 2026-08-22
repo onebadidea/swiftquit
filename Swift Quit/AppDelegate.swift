@@ -6,9 +6,7 @@
 //
 
 import Cocoa
-import AXSwift
-import Swindler
-import PromiseKit
+import ApplicationServices
 
 var userDefaults = UserDefaults.standard
 var swiftQuitSettings = SwiftQuit.getSettings()
@@ -17,40 +15,33 @@ let storyboard = NSStoryboard(name: "Main", bundle: nil)
 var settingsWindow = (storyboard.instantiateController(withIdentifier: "settings") as! NSWindowController)
 var menu = NSMenu()
 var statusItem: NSStatusItem!
-var swindler: Swindler.State!
-var lastLaunchedAppPid : Int32 = 0;
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
-        guard AXSwift.checkIsProcessTrusted(prompt: true) else {
+        let accessibilityPromptOptions = [
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true
+        ] as CFDictionary
+
+        guard AXIsProcessTrustedWithOptions(accessibilityPromptOptions) else {
             print("Not trusted as an AX process; please authorize and re-launch")
             NSApp.terminate(self)
             return
         }
         
-        Swindler.initialize().done { state in
-            swindler = state
-            
-            SwiftQuit.activateAutomaticAppClosing()
-            
-            self.loadMenu()
-            
-            if(swiftQuitSettings["menubarIconEnabled"] == "false"){
-                SwiftQuit.hideMenu()
-            }
-            
-            if (swiftQuitSettings["launchHidden"] == "false"){
-                self.openSettings()
-            }
-            
-        }.catch { error in
-            print("Fatal error: failed to initialize Swindler: \(error)")
-            NSApp.terminate(self)
+        SwiftQuit.activateAutomaticAppClosing()
+
+        self.loadMenu()
+
+        if(swiftQuitSettings["menubarIconEnabled"] == "false"){
+            SwiftQuit.hideMenu()
         }
-        
+
+        if (swiftQuitSettings["launchHidden"] == "false"){
+            self.openSettings()
+        }
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -94,4 +85,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     
 }
-
