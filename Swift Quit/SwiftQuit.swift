@@ -12,6 +12,7 @@ import Swindler
 import PromiseKit
 
 class SwiftQuit {
+    private static var pendingApplicationClosures: Set<pid_t> = []
     
     /*
      Settings
@@ -77,17 +78,12 @@ class SwiftQuit {
 
     @objc class func activateAutomaticAppClosing(){
         swindler.on { (event: WindowDestroyedEvent) in
-            if !event.window.application.knownWindows.isEmpty {
-                print("Application still has windows; aborting")
-                return
-            }
-            
-            let processIdentifier = event.window.application.processIdentifier
-            closeApplication(pid:processIdentifier, eventApp:event.window.application)
+            guard event.external else { return }
+            closeApplication(pid: event.window.application.processIdentifier)
         }
     }
     
-    class func closeApplication(pid:Int32, eventApp:Swindler.Application) {
+    class func closeApplication(pid:Int32) {
         let myAppPid = ProcessInfo.processInfo.processIdentifier
 
         guard let app = AppKit.NSRunningApplication.init(processIdentifier: pid) else {
@@ -101,34 +97,36 @@ class SwiftQuit {
         }
         var applicationName = bundleURL.absoluteString
 
-        print(app.isFinishedLaunching);
-        
-        if(app.isFinishedLaunching){
-            applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
-            applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
-            applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
-            
-            if(myAppPid != pid){
-                
-                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"];
-                
-                if(!excludedServices.contains(applicationName)){
-                    if (shouldCloseApplication(applicationName: applicationName)) {
-                        
-                        print(applicationName)
-                        
-                        let closeDelay = Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(closeDelay)) {
-                            if eventApp.knownWindows.isEmpty {
-                                terminateApplication(app: app)
-                            }
-                        }
-                    }
-                }
+        guard app.isFinishedLaunching,
+              app.activationPolicy == .regular else { return }
+
+        applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
+        applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
+        applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
+
+        guard myAppPid != pid else { return }
+
+        let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"]
+
+        guard !excludedServices.contains(applicationName),
+              shouldCloseApplication(applicationName: applicationName) else { return }
+
+        guard !pendingApplicationClosures.contains(pid) else { return }
+        pendingApplicationClosures.insert(pid)
+
+        let closeDelay = Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(closeDelay)) {
+            defer { pendingApplicationClosures.remove(pid) }
+
+            guard !app.isTerminated else { return }
+
+            if WindowVisibility.hasUserVisibleWindow(for: pid) {
+                print("Application still has a user-visible window; aborting")
+                return
             }
+
+            terminateApplication(app: app)
         }
-        
-        
     }
     
     class func shouldCloseApplication(applicationName:String) -> Bool {

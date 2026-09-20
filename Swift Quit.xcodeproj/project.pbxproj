@@ -14,6 +14,7 @@
 		B2C8BE20283EBF9100DB5C94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C8BE1F283EBF9100DB5C94 /* Assets.xcassets */; };
 		B2C8BE23283EBF9100DB5C94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C8BE21283EBF9100DB5C94 /* Main.storyboard */; };
 		B2C8BE2B283EC5D400DB5C94 /* SwiftQuit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8BE2A283EC5D400DB5C94 /* SwiftQuit.swift */; };
+		D10000000000000000000001 /* WindowVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000002 /* WindowVisibility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		B2C8BE24283EBF9100DB5C94 /* Swift_Quit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Swift_Quit.entitlements; sourceTree = "<group>"; };
 		B2C8BE2A283EC5D400DB5C94 /* SwiftQuit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftQuit.swift; sourceTree = "<group>"; };
 		B2C8BE2C283ECF1600DB5C94 /* Swift-Quit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Swift-Quit-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D10000000000000000000002 /* WindowVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowVisibility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				B2C8BE21283EBF9100DB5C94 /* Main.storyboard */,
 				B2C8BE24283EBF9100DB5C94 /* Swift_Quit.entitlements */,
 				B2C8BE2A283EC5D400DB5C94 /* SwiftQuit.swift */,
+				D10000000000000000000002 /* WindowVisibility.swift */,
 			);
 			path = "Swift Quit";
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D10000000000000000000001 /* WindowVisibility.swift in Sources */,
 				B2C8BE2B283EC5D400DB5C94 /* SwiftQuit.swift in Sources */,
 				B2C8BE1E283EBF8F00DB5C94 /* ViewController.swift in Sources */,
 				B2C8BE1C283EBF8F00DB5C94 /* AppDelegate.swift in Sources */,
