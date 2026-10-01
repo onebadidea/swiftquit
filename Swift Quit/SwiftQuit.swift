@@ -85,50 +85,95 @@ class SwiftQuit {
             let processIdentifier = event.window.application.processIdentifier
             closeApplication(pid:processIdentifier, eventApp:event.window.application)
         }
-    }
-    
-    class func closeApplication(pid:Int32, eventApp:Swindler.Application) {
-        let myAppPid = ProcessInfo.processInfo.processIdentifier
 
-        guard let app = AppKit.NSRunningApplication.init(processIdentifier: pid) else {
-            print("Application with PID \(pid) no longer running")
-            return
-        }
+        // Some apps (Discord) hide themselves when their red button is clicked instead of
+        // closing the window, so no WindowDestroyedEvent ever fires. Catch the click on the
+        // close button itself and quit the app if it hid itself afterwards.
+        closeButtonMonitor = NSEvent.addGlobalMonitorForEvents(matching: .leftMouseDown) { event in
+            guard let location = event.cgEvent?.location else { return }
 
-        guard let bundleURL = app.bundleURL else {
-            print("Application with PID \(pid) has no bundle URL")
-            return
-        }
-        var applicationName = bundleURL.absoluteString
+            // The hit test asks another app over accessibility and can block while that app
+            // is busy, so keep it off the main thread that Swindler runs on.
+            DispatchQueue.global(qos: .userInitiated).async {
+                guard let pid = closeButtonOwner(at: location) else { return }
 
-        print(app.isFinishedLaunching);
-        
-        if(app.isFinishedLaunching){
-            applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
-            applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
-            applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
-            
-            if(myAppPid != pid){
-                
-                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"];
-                
-                if(!excludedServices.contains(applicationName)){
-                    if (shouldCloseApplication(applicationName: applicationName)) {
-                        
-                        print(applicationName)
-                        
-                        let closeDelay = Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(closeDelay)) {
-                            if eventApp.knownWindows.isEmpty {
-                                terminateApplication(app: app)
-                            }
+                DispatchQueue.main.async {
+                    guard let app = AppKit.NSRunningApplication.init(processIdentifier: pid),
+                          !app.isHidden,
+                          canCloseApplication(app: app) else { return }
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(closeDelay())) {
+                        if app.isHidden && !app.isTerminated {
+                            terminateApplication(app: app)
                         }
                     }
                 }
             }
         }
-        
-        
+    }
+
+    private static var closeButtonMonitor: Any?
+
+    /// The PID of the app whose window close button is at this screen point, if there is one.
+    class func closeButtonOwner(at location: CGPoint) -> pid_t? {
+        var element: AXUIElement?
+        guard AXUIElementCopyElementAtPosition(AXUIElementCreateSystemWide(), Float(location.x), Float(location.y), &element) == .success,
+              let element else { return nil }
+
+        var subrole: CFTypeRef?
+        AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &subrole)
+        guard subrole as? String == kAXCloseButtonSubrole else { return nil }
+
+        var pid: pid_t = 0
+        guard AXUIElementGetPid(element, &pid) == .success, pid != 0 else { return nil }
+        return pid
+    }
+
+    class func closeDelay() -> Int {
+        return Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
+    }
+
+    class func closeApplication(pid:Int32, eventApp:Swindler.Application) {
+        guard let app = AppKit.NSRunningApplication.init(processIdentifier: pid) else {
+            print("Application with PID \(pid) no longer running")
+            return
+        }
+
+        if canCloseApplication(app: app) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(closeDelay())) {
+                if eventApp.knownWindows.isEmpty {
+                    terminateApplication(app: app)
+                }
+            }
+        }
+    }
+
+    /// Whether Swift Quit is allowed to quit this app: not itself, not a protected system
+    /// service, and allowed by the user's exclude/include list.
+    class func canCloseApplication(app:NSRunningApplication) -> Bool {
+        let myAppPid = ProcessInfo.processInfo.processIdentifier
+
+        guard let bundleURL = app.bundleURL else {
+            print("Application with PID \(app.processIdentifier) has no bundle URL")
+            return false
+        }
+        var applicationName = bundleURL.absoluteString
+
+        print(app.isFinishedLaunching);
+
+        guard app.isFinishedLaunching, myAppPid != app.processIdentifier else { return false }
+
+        applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
+        applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
+        applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
+
+        let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"];
+
+        guard !excludedServices.contains(applicationName),
+              shouldCloseApplication(applicationName: applicationName) else { return false }
+
+        print(applicationName)
+        return true
     }
     
     class func shouldCloseApplication(applicationName:String) -> Bool {
