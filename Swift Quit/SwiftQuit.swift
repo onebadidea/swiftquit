@@ -99,14 +99,13 @@ class SwiftQuit {
             print("Application with PID \(pid) has no bundle URL")
             return
         }
-        var applicationName = bundleURL.absoluteString
+        // Use the decoded file system path to match paths stored by the settings UI.
+        // URL.absoluteString percent-encodes non-ASCII app bundle names.
+        let applicationName = bundleURL.path
 
         print(app.isFinishedLaunching);
         
         if(app.isFinishedLaunching){
-            applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
-            applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
-            applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
             
             if(myAppPid != pid){
                 
