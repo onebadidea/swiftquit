@@ -110,8 +110,14 @@ class SwiftQuit {
             
             if(myAppPid != pid){
                 
-                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"];
-                
+                var excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/NotificationCenter.app"];
+
+                // Finder ignores quit requests unless the user has enabled its hidden
+                // QuitMenuItem preference, so only allow quitting it in that case.
+                if(!isFinderQuittable()){
+                    excludedServices.append("/System/Library/CoreServices/Finder.app")
+                }
+
                 if(!excludedServices.contains(applicationName)){
                     if (shouldCloseApplication(applicationName: applicationName)) {
                         
@@ -131,6 +137,11 @@ class SwiftQuit {
         
     }
     
+    // True when `defaults write com.apple.finder QuitMenuItem -bool true` is set.
+    class func isFinderQuittable() -> Bool {
+        return UserDefaults(suiteName: "com.apple.finder")?.bool(forKey: "QuitMenuItem") ?? false
+    }
+
     class func shouldCloseApplication(applicationName:String) -> Bool {
         return (swiftQuitSettings["excludeBehaviour"] == "excludeApps" && !swiftQuitExcludedApps.contains(applicationName)) || (swiftQuitSettings["excludeBehaviour"] == "includeApps" && swiftQuitExcludedApps.contains(applicationName))
     }
