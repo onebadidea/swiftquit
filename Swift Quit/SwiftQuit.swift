@@ -12,13 +12,27 @@ import Swindler
 import PromiseKit
 
 class SwiftQuit {
+    static let defaultSettings: [String: String] = [
+        "launchAtLogin": "false",
+        "menubarIconEnabled": "true",
+        "excludeBehaviour": "excludeApps",
+        "launchHidden": "true",
+        "closeDelay": "2"
+    ]
     
     /*
      Settings
      */
     
     @objc class func getSettings() -> [String:String] {
-        return userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] ?? ["launchAtLogin":"false","menubarIconEnabled":"true","excludeBehaviour":"excludeApps","launchHidden":"true","closeDelay":"2"]
+        var settings = defaultSettings
+        if let savedSettings = userDefaults.object(forKey: "SwiftQuitSettings") as? [String:String] {
+            settings.merge(savedSettings) { _, saved in saved }
+        }
+
+        let closeDelay = Int(settings["closeDelay"] ?? "") ?? 2
+        settings["closeDelay"] = String(min(max(closeDelay, 1), 300))
+        return settings
     }
     
     @objc class func updateSettings(){
@@ -26,7 +40,8 @@ class SwiftQuit {
     }
     
     @objc class func getExcludedApps() -> [String] {
-        return userDefaults.object(forKey: "SwiftQuitExcludedApps") as? [String] ?? []
+        let savedApps = userDefaults.object(forKey: "SwiftQuitExcludedApps") as? [String] ?? []
+        return savedApps.map(normalizedApplicationPath)
     }
     
     @objc class func updateExcludedApps(){
@@ -71,8 +86,17 @@ class SwiftQuit {
     }
 
     @objc class func setCloseDelay(_ delay: String){
-        swiftQuitSettings["closeDelay"] = delay
+        guard let closeDelay = Int(delay), (1...300).contains(closeDelay) else {
+            swiftQuitSettings["closeDelay"] = "2"
+            updateSettings()
+            return
+        }
+        swiftQuitSettings["closeDelay"] = String(closeDelay)
         updateSettings()
+    }
+
+    class func normalizedApplicationPath(_ application: String) -> String {
+        SwiftQuitPolicy.normalizedApplicationPath(application)
     }
 
     @objc class func activateAutomaticAppClosing(){
@@ -99,29 +123,22 @@ class SwiftQuit {
             print("Application with PID \(pid) has no bundle URL")
             return
         }
-        var applicationName = bundleURL.absoluteString
-
-        print(app.isFinishedLaunching);
+        let applicationName = normalizedApplicationPath(bundleURL.path)
         
-        if(app.isFinishedLaunching){
-            applicationName.remove(at: applicationName.index(before: applicationName.endIndex))
-            applicationName = applicationName.replacingOccurrences(of: "file://", with: "")
-            applicationName = applicationName.replacingOccurrences(of: "%20", with: " ")
-            
-            if(myAppPid != pid){
-                
-                let excludedServices:[String] = ["/System/Library/CoreServices/Spotlight.app","/System/Library/CoreServices/Finder.app","/System/Library/CoreServices/NotificationCenter.app"];
-                
-                if(!excludedServices.contains(applicationName)){
-                    if (shouldCloseApplication(applicationName: applicationName)) {
-                        
-                        print(applicationName)
-                        
-                        let closeDelay = Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(closeDelay)) {
-                            if eventApp.knownWindows.isEmpty {
-                                terminateApplication(app: app)
-                            }
+        if app.isFinishedLaunching && !app.isTerminated {
+            if myAppPid != pid {
+                let excludedServices = [
+                    "/System/Library/CoreServices/Spotlight.app",
+                    "/System/Library/CoreServices/Finder.app",
+                    "/System/Library/CoreServices/NotificationCenter.app"
+                ]
+
+                if !excludedServices.contains(applicationName),
+                   shouldCloseApplication(applicationName: applicationName) {
+                    let closeDelay = Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(min(max(closeDelay, 1), 300))) {
+                        if eventApp.knownWindows.isEmpty && !app.isTerminated {
+                            terminateApplication(app: app)
                         }
                     }
                 }
@@ -132,7 +149,11 @@ class SwiftQuit {
     }
     
     class func shouldCloseApplication(applicationName:String) -> Bool {
-        return (swiftQuitSettings["excludeBehaviour"] == "excludeApps" && !swiftQuitExcludedApps.contains(applicationName)) || (swiftQuitSettings["excludeBehaviour"] == "includeApps" && swiftQuitExcludedApps.contains(applicationName))
+        SwiftQuitPolicy.shouldCloseApplication(
+            applicationName: applicationName,
+            settings: swiftQuitSettings,
+            excludedApplications: swiftQuitExcludedApps
+        )
     }
     
     class func terminateApplication(app:NSRunningApplication) {

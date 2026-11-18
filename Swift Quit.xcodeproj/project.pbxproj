@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B27644922864C3BC000259CC /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = B27644912864C3BC000259CC /* LaunchAtLogin */; };
+		C10000172864000000000001 /* SwiftQuitPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000162864000000000001 /* SwiftQuitPolicy.swift */; };
+		C10000182864000000000001 /* SwiftQuitPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000162864000000000001 /* SwiftQuitPolicy.swift */; };
+		C10000012864000000000001 /* SwiftQuitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000022864000000000001 /* SwiftQuitTests.swift */; };
 		B281175728732DA40080A780 /* Swindler in Frameworks */ = {isa = PBXBuildFile; productRef = B281175628732DA40080A780 /* Swindler */; };
 		B2C8BE1C283EBF8F00DB5C94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8BE1B283EBF8F00DB5C94 /* AppDelegate.swift */; };
 		B2C8BE1E283EBF8F00DB5C94 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8BE1D283EBF8F00DB5C94 /* ViewController.swift */; };
@@ -17,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C10000162864000000000001 /* SwiftQuitPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftQuitPolicy.swift; sourceTree = "<group>"; };
+		C10000022864000000000001 /* SwiftQuitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftQuitTests.swift; sourceTree = "<group>"; };
+		C10000032864000000000001 /* SwiftQuitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftQuitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C8BE18283EBF8E00DB5C94 /* Swift Quit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Quit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C8BE1B283EBF8F00DB5C94 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2C8BE1D283EBF8F00DB5C94 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -27,19 +32,51 @@
 		B2C8BE2C283ECF1600DB5C94 /* Swift-Quit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Swift-Quit-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
+/* Begin PBXContainerItemProxy section */
+		C10000142864000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B2C8BE10283EBF8E00DB5C94 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C8BE17283EBF8E00DB5C94;
+			remoteInfo = "Swift Quit";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		C10000152864000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C8BE17283EBF8E00DB5C94 /* Swift Quit */;
+			targetProxy = C10000142864000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		C10000072864000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B2C8BE15283EBF8E00DB5C94 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				B281175728732DA40080A780 /* Swindler in Frameworks */,
-				B27644922864C3BC000259CC /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C10000052864000000000001 /* SwiftQuitTests */ = {
+			isa = PBXGroup;
+			children = (
+				C10000022864000000000001 /* SwiftQuitTests.swift */,
+			);
+			path = "Swift QuitTests";
+			sourceTree = "<group>";
+		};
 		B2811750287244850080A780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -51,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				B2C8BE1A283EBF8E00DB5C94 /* Swift Quit */,
+				C10000052864000000000001 /* SwiftQuitTests */,
 				B2C8BE19283EBF8E00DB5C94 /* Products */,
 				B2811750287244850080A780 /* Frameworks */,
 			);
@@ -60,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				B2C8BE18283EBF8E00DB5C94 /* Swift Quit.app */,
+				C10000032864000000000001 /* SwiftQuitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -74,6 +113,7 @@
 				B2C8BE21283EBF9100DB5C94 /* Main.storyboard */,
 				B2C8BE24283EBF9100DB5C94 /* Swift_Quit.entitlements */,
 				B2C8BE2A283EC5D400DB5C94 /* SwiftQuit.swift */,
+				C10000162864000000000001 /* SwiftQuitPolicy.swift */,
 			);
 			path = "Swift Quit";
 			sourceTree = "<group>";
@@ -81,6 +121,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C10000102864000000000001 /* SwiftQuitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C10000132864000000000001 /* Build configuration list for PBXNativeTarget "SwiftQuitTests" */;
+			buildPhases = (
+				C10000092864000000000001 /* Sources */,
+				C10000072864000000000001 /* Frameworks */,
+				C10000082864000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C10000152864000000000001 /* PBXTargetDependency */,
+			);
+			name = SwiftQuitTests;
+			productName = SwiftQuitTests;
+			productReference = C10000032864000000000001 /* SwiftQuitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		B2C8BE17283EBF8E00DB5C94 /* Swift Quit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2C8BE27283EBF9100DB5C94 /* Build configuration list for PBXNativeTarget "Swift Quit" */;
@@ -88,7 +146,6 @@
 				B2C8BE14283EBF8E00DB5C94 /* Sources */,
 				B2C8BE15283EBF8E00DB5C94 /* Frameworks */,
 				B2C8BE16283EBF8E00DB5C94 /* Resources */,
-				B297CFB12866116B00C48ABC /* Launch at Login Helper */,
 			);
 			buildRules = (
 			);
@@ -96,7 +153,6 @@
 			);
 			name = "Swift Quit";
 			packageProductDependencies = (
-				B27644912864C3BC000259CC /* LaunchAtLogin */,
 				B281175628732DA40080A780 /* Swindler */,
 			);
 			productName = "Swift Quit";
@@ -113,6 +169,10 @@
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					C10000102864000000000001 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = B2C8BE17283EBF8E00DB5C94;
+					};
 					B2C8BE17283EBF8E00DB5C94 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -128,9 +188,6 @@
 			);
 			mainGroup = B2C8BE0F283EBF8E00DB5C94;
 			packageReferences = (
-				B2C8BE2D283EF54B00DB5C94 /* XCRemoteSwiftPackageReference "Swindler" */,
-				B27644902864C3BC000259CC /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
-				B2811748287240000080A780 /* XCRemoteSwiftPackageReference "Swindler" */,
 				B281174B287243B40080A780 /* XCRemoteSwiftPackageReference "Swindler" */,
 			);
 			productRefGroup = B2C8BE19283EBF8E00DB5C94 /* Products */;
@@ -138,11 +195,19 @@
 			projectRoot = "";
 			targets = (
 				B2C8BE17283EBF8E00DB5C94 /* Swift Quit */,
+				C10000102864000000000001 /* SwiftQuitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C10000082864000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B2C8BE16283EBF8E00DB5C94 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,28 +220,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B297CFB12866116B00C48ABC /* Launch at Login Helper */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Launch at Login Helper";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C10000092864000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C10000012864000000000001 /* SwiftQuitTests.swift in Sources */,
+				C10000182864000000000001 /* SwiftQuitPolicy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B2C8BE14283EBF8E00DB5C94 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -184,6 +239,7 @@
 				B2C8BE2B283EC5D400DB5C94 /* SwiftQuit.swift in Sources */,
 				B2C8BE1E283EBF8F00DB5C94 /* ViewController.swift in Sources */,
 				B2C8BE1C283EBF8F00DB5C94 /* AppDelegate.swift in Sources */,
+				C10000172864000000000001 /* SwiftQuitPolicy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +257,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C10000112864000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.5;
+				PRODUCT_BUNDLE_IDENTIFIER = "onebadidea.Swift-QuitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C10000122864000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.5;
+				PRODUCT_BUNDLE_IDENTIFIER = "onebadidea.Swift-QuitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		B2C8BE25283EBF9100DB5C94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -251,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -305,7 +389,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -337,7 +421,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "onebadidea.Swift-Quit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -369,7 +453,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "onebadidea.Swift-Quit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -381,6 +465,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C10000132864000000000001 /* Build configuration list for PBXNativeTarget "SwiftQuitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C10000112864000000000001 /* Debug */,
+				C10000122864000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B2C8BE13283EBF8E00DB5C94 /* Build configuration list for PBXProject "Swift Quit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -402,46 +495,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B27644902864C3BC000259CC /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		B2811748287240000080A780 /* XCRemoteSwiftPackageReference "Swindler" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tmandry/Swindler";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		B281174B287243B40080A780 /* XCRemoteSwiftPackageReference "Swindler" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tmandry/Swindler";
 			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		B2C8BE2D283EF54B00DB5C94 /* XCRemoteSwiftPackageReference "Swindler" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tmandry/Swindler";
-			requirement = {
-				branch = main;
-				kind = branch;
+				kind = revision;
+				revision = fe91886c6ade612d31ef939f6a4932cf27115562;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B27644912864C3BC000259CC /* LaunchAtLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B27644902864C3BC000259CC /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
-			productName = LaunchAtLogin;
-		};
 		B281175628732DA40080A780 /* Swindler */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B281174B287243B40080A780 /* XCRemoteSwiftPackageReference "Swindler" */;

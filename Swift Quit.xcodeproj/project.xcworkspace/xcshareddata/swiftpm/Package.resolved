@@ -1,4 +1,5 @@
 {
+  "originHash" : "2115fbee624f87d775a9b9eac5068eb04525835c936ba455f6f3fc741807d938",
   "pins" : [
     {
       "identity" : "axswift",
@@ -7,15 +8,6 @@
       "state" : {
         "revision" : "81dcc36aced905d6464cc25e35f8d13184bbf21c",
         "version" : "0.3.2"
-      }
-    },
-    {
-      "identity" : "launchatlogin",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sindresorhus/LaunchAtLogin",
-      "state" : {
-        "branch" : "main",
-        "revision" : "e8171b3e38a2816f579f58f3dac1522aa39efe41"
       }
     },
     {
@@ -50,10 +42,9 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/tmandry/Swindler",
       "state" : {
-        "branch" : "main",
         "revision" : "fe91886c6ade612d31ef939f6a4932cf27115562"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
