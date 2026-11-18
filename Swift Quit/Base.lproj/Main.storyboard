@@ -714,7 +714,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="launchAtLoginToggle:" target="XfG-lQ-9wD" id="gni-dm-Awn"/>
-                                    <binding destination="NFW-oP-p1K" name="value" keyPath="values.launchAtLogin.isEnabled" id="H53-I2-HiE"/>
                                 </connections>
                             </switch>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ICr-lq-5Ag">
@@ -896,7 +895,6 @@
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <userDefaultsController representsSharedInstance="YES" id="NFW-oP-p1K"/>
             </objects>
             <point key="canvasLocation" x="75.5" y="724"/>
         </scene>

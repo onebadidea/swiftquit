@@ -6,11 +6,9 @@
 //
 
 import Cocoa
-import LaunchAtLogin
+import ServiceManagement
 
 class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
-    @objc dynamic var launchAtLogin = LaunchAtLogin.kvo
-    
     @IBOutlet weak var launchHiddenSwitch: NSSwitch!
     @IBOutlet weak var displayMenubarIcon: NSSwitch!
     @IBOutlet weak var excludeBehaviourPopupOutlet: NSPopUpButton!
@@ -36,8 +34,14 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     }
     
     func setupViews() {
-        print("launch at login:")
-        print(launchAtLogin)
+        if #available(macOS 13.0, *) {
+            launchAtLoginSwitch.state = SMAppService.mainApp.status == .enabled
+                ? .on
+                : .off
+        } else {
+            launchAtLoginSwitch.state = .off
+            launchAtLoginSwitch.isEnabled = false
+        }
 
         if(swiftQuitSettings["menubarIconEnabled"] == "true"){
             displayMenubarIcon.state = NSControl.StateValue.on
@@ -75,18 +79,24 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     }
     
     @IBAction func launchAtLoginToggle(_ sender: Any) {
-        
-        if launchAtLoginSwitch.state == NSControl.StateValue.on {
-            SwiftQuit.enableLaunchAtLogin()
-            LaunchAtLogin.isEnabled = true
+        guard #available(macOS 13.0, *) else { return }
 
+        do {
+            if launchAtLoginSwitch.state == .on {
+                try SMAppService.mainApp.register()
+                SwiftQuit.enableLaunchAtLogin()
+            } else {
+                try SMAppService.mainApp.unregister()
+                SwiftQuit.disableLaunchAtLogin()
+            }
+        } catch {
+            launchAtLoginSwitch.state = SMAppService.mainApp.status == .enabled ? .on : .off
+            let alert = NSAlert()
+            alert.messageText = "Unable to Update Login Item"
+            alert.informativeText = error.localizedDescription
+            alert.alertStyle = .warning
+            alert.runModal()
         }
-        else{
-            SwiftQuit.disableLaunchAtLogin()
-            LaunchAtLogin.isEnabled = false
-
-        }
-        
     }
     
     @IBAction func displayMenubarIconToggle(_ sender: Any) {
@@ -133,13 +143,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSWindowDelegate {
     
     @IBAction func addExcludedApp(_ sender: Any) {
         let dialog = NSOpenPanel();
-        let directory = URL(string: "file:///System/Applications/")
+        let directory = URL(fileURLWithPath: "/Applications", isDirectory: true)
         
         dialog.title                   = "Choose Application";
         dialog.showsResizeIndicator    = true;
         dialog.showsHiddenFiles        = false;
         dialog.canChooseFiles = true;
-        dialog.canChooseDirectories = true;
+        dialog.canChooseDirectories = false;
         dialog.treatsFilePackagesAsDirectories = true
         dialog.directoryURL = directory
         
