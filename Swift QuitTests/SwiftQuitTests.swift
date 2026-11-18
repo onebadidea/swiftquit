@@ -23,4 +23,25 @@ final class SwiftQuitTests: XCTestCase {
         XCTAssertTrue(SwiftQuitPolicy.shouldCloseApplication(applicationName: "/Applications/Safari.app", settings: settings, excludedApplications: excluded))
         XCTAssertFalse(SwiftQuitPolicy.shouldCloseApplication(applicationName: "/Applications/Mail.app", settings: settings, excludedApplications: excluded))
     }
+
+    func testRemainingWindowCancelsTermination() {
+        XCTAssertFalse(SwiftQuitPolicy.hasNoWindowsAndShouldTerminate(
+            hasRemainingWindows: true,
+            isHidden: false
+        ))
+    }
+
+    func testLastWindowAllowsTermination() {
+        XCTAssertTrue(SwiftQuitPolicy.hasNoWindowsAndShouldTerminate(
+            hasRemainingWindows: false,
+            isHidden: false
+        ))
+    }
+
+    func testHiddenAppWithRemainingWindowsIsNotTerminated() {
+        XCTAssertFalse(SwiftQuitPolicy.hasNoWindowsAndShouldTerminate(
+            hasRemainingWindows: true,
+            isHidden: true
+        ))
+    }
 }

@@ -21,4 +21,18 @@ enum SwiftQuitPolicy {
         }
         return excludedApplications.contains(applicationName)
     }
+
+    static func shouldCancelForHiddenApp(
+        isHidden: Bool,
+        hasRemainingWindows: Bool
+    ) -> Bool {
+        isHidden && hasRemainingWindows
+    }
+
+    static func hasNoWindowsAndShouldTerminate(
+        hasRemainingWindows: Bool,
+        isHidden: Bool
+    ) -> Bool {
+        !hasRemainingWindows && !isHidden
+    }
 }

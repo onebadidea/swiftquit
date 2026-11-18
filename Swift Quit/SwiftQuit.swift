@@ -101,11 +101,6 @@ class SwiftQuit {
 
     @objc class func activateAutomaticAppClosing(){
         swindler.on { (event: WindowDestroyedEvent) in
-            if !event.window.application.knownWindows.isEmpty {
-                print("Application still has windows; aborting")
-                return
-            }
-            
             let processIdentifier = event.window.application.processIdentifier
             closeApplication(pid:processIdentifier, eventApp:event.window.application)
         }
@@ -137,7 +132,20 @@ class SwiftQuit {
                    shouldCloseApplication(applicationName: applicationName) {
                     let closeDelay = Int(swiftQuitSettings["closeDelay"] ?? "2") ?? 2
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(min(max(closeDelay, 1), 300))) {
-                        if eventApp.knownWindows.isEmpty && !app.isTerminated {
+                        if app.isTerminated {
+                            return
+                        }
+
+                        guard let hasRemainingWindows = liveWindowCheck(pid: pid) else {
+                            print("Could not determine remaining windows for \(applicationName); aborting")
+                            return
+                        }
+
+                        if !hasRemainingWindows,
+                           !SwiftQuitPolicy.shouldCancelForHiddenApp(
+                            isHidden: app.isHidden,
+                            hasRemainingWindows: hasRemainingWindows
+                           ) {
                             terminateApplication(app: app)
                         }
                     }
@@ -154,6 +162,22 @@ class SwiftQuit {
             settings: swiftQuitSettings,
             excludedApplications: swiftQuitExcludedApps
         )
+    }
+
+    class func liveWindowCheck(pid: Int32) -> Bool? {
+        guard let application = AXSwift.Application(forProcessID: pid) else {
+            return nil
+        }
+
+        do {
+            guard let windows = try application.windows() else {
+                return nil
+            }
+            return !windows.isEmpty
+        } catch {
+            NSLog("Swift Quit could not read Accessibility windows for PID %d: %@", pid, error.localizedDescription)
+            return nil
+        }
     }
     
     class func terminateApplication(app:NSRunningApplication) {
